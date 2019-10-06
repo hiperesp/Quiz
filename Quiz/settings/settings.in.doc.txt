@@ -1,0 +1,21 @@
+1						Código do Tema. (-1 = tema mais adequado para o sistema operacional)
+2						Quantidade de questões
+						Início da questão (linha em branco obrigatória)
+1 - Que animal é esse?	Questão
+Cabra.jpg				Nome da imagem que representa a questão
+0						Índice da resposta correta (0 = primeira, 1 = segunda, 2 = terceira, etc...)
+Cabra					Primeira alternativa
+Cavalo					Segunda alternativa
+Cobra					Terceira alternativa
+Sapo					Quarta alternativa
+Tartaruga				Quinta alternativa
+						Início da segunda questão
+2 - Que animal é esse?	Segunda Questão
+CavaloMarinho.jpg		Nome da imagem que represanta a segunda questão
+4						Índice da resposta correta (4 = quinta)
+Mosca					Primeira alternativa
+Cabra					Segunda alternativa
+Lontra					Terceira alternativa
+Leão					Quarta alternativa
+Cavalo Marinho			Quinta alternativa
+						Essa linha é opcional. Tudo que começa nessa linha é ignorado pelo programa, já que são 2 questões e eles já foram lidas.

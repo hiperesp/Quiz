@@ -2,10 +2,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +15,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class Tela extends JFrame implements QuizConstants, ActionListener {
 	
@@ -28,11 +27,12 @@ public class Tela extends JFrame implements QuizConstants, ActionListener {
 	public Tela() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException, IOException {
 		setTitle("Quiz do Hiperesp");
 		setSize(480, 480);
-		setIconImage(ImageIO.read(new File("assets/logo.jpg")));
+		//setIconImage(ImageIO.read(new File("assets/logo.jpg")));
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		setTheme(Init.themeIndex==-1?UIManager.getSystemLookAndFeelClassName():getThemes()[Init.themeIndex].getClassName());
 		setup();
 		setVisible(true);
 	}	
@@ -56,6 +56,7 @@ public class Tela extends JFrame implements QuizConstants, ActionListener {
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	JButton inicioView_play;
+	JButton themeButton;
 	public void inicioView() {
 		{
 			questaoAtual = -1;
@@ -69,9 +70,14 @@ public class Tela extends JFrame implements QuizConstants, ActionListener {
 		}
 		{
 			inicioView_play = new JButton("Jogar");
-			inicioView_play.setBounds(140, 300, 200, 80);
+			inicioView_play.setBounds(120, 300, 230, 80);
 			inicioView_play.addActionListener(this);
 			add(inicioView_play);
+			
+			/*themeButton = new JButton("Alterar Tema");
+			themeButton.setBounds(230, 300, 120, 80);
+			themeButton.addActionListener(this);
+			add(themeButton);*/
 		}
 	}
 	
@@ -168,7 +174,33 @@ public class Tela extends JFrame implements QuizConstants, ActionListener {
 			setView(QUESTOES);
 		} else if(e.getSource()==questoesView_proximo) {
 			if(addPonto())	proximaQuestao();
+		} else if(e.getSource()==themeButton) {
+			try {
+				switchTheme();
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
 		}
+	}
+	
+	public void setTheme(String theme) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(theme);
+        SwingUtilities.updateComponentTreeUI(this);
+	}
+	
+	public LookAndFeelInfo[] getThemes() {
+		return UIManager.getInstalledLookAndFeels();
+	}
+	
+	public String getTheme() {
+		return UIManager.getLookAndFeel().getClass().getName();
+	}
+	
+	public void switchTheme() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		LookAndFeelInfo[] themes = getThemes();
+		if(++Init.themeIndex>themes.length-1) Init.themeIndex = 0;
+		setTheme(themes[Init.themeIndex].getClassName());
+		JOptionPane.showMessageDialog(this, "Tema alterado para "+themes[Init.themeIndex].getName()+".");
 	}
 	
 }
